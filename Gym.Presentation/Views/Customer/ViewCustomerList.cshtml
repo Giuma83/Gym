@@ -1,0 +1,99 @@
+﻿@model Gym.Presentation.Models.ListCustomerModel
+
+@{
+    ViewBag.Title = "ViewCustomerList";
+}
+
+<script>
+    // faccio una chiamata AJAX ed il parametro in entrata sarà id (lo stesso nome di quello in entrata nel metodo del controller)
+    function GetDetails(id) {
+        // la sintassi si fa con il dollaro .get, come parametri di ingresso ha la rotta ed il parametro che sto passando alla Action.
+        // il primo "id" è il NOME della proprietà AJAX, il 2 "id" è il valore reale che ho passato prima 
+        //non appena la chiamata ci tornerà un risultato, chiamiamo una seconda funzione
+        $.get("DetailsCustomer", { id: id }).then(GetResult);
+    }
+    //non appena viene invocata questa funzione, il suo parametro in entrata sarà quello del risultato del metodo .get
+    function GetResult(result) {
+// creo una ariabile che indicherà il contenitore della nostra Partial View
+      // il nome all'interno è quello della class del div che contiene la partial View. questo va fatto prima
+        let container = $(".detailcontainer");
+        //qui sto popolando il contenitore html con il risultato della Partial View
+        container.html(result);
+    }
+
+</script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+
+
+
+                <h2>ViewCustomerList</h2>
+
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.customers)
+                    {
+                        <tr>
+                            <td>
+                                @item.NameCustomer
+                            </td>
+                            <td>
+                                @*@Html.ActionLink("View details", null, null, new { onClick = $"GetDetails({item.CustomerId})"}, null)*@
+                                <button onclick="GetDetails(@item.CustomerId)">
+                                    view datails
+                                </button>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        @for (int i = 1; i <= Model.PageCount; i++)
+                        {
+                        <td>
+                            @if (i != Model.CurrentPage && i < Model.PageCount)
+                            {
+                                @Html.ActionLink($"{i} - ", "ViewCustomerList", "Customer", new { currentPage = @i }, null)
+                            }
+                            else if (i == Model.PageCount)
+                            {
+                                @Html.ActionLink($"{i}", "ViewCustomerList", "Customer", new { currentPage = @i }, null)
+                            }
+                            else
+                            {
+                                <span>@i - </span>
+                            }
+                        </td>
+                        }
+                    </tr>
+                </table>
+            </div>
+
+            <br />
+            <div class="col-md-8">
+                <div class="detailcontainer">
+                    @if (Model.customer != null)
+                    {
+                        @Html.Partial("DetailsCustomer", Model)
+                    }
+                </div>
+
+
+
+            </div>
+        </div>
+        </div>

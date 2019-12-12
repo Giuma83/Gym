@@ -1,0 +1,55 @@
+﻿@model Gym.Presentation.Models.CourseList
+
+@{
+    ViewBag.Title = "AddCustomerWithCourses";
+}
+
+<h2>AddCustomerWithCourses</h2>
+
+@{Html.BeginForm("addCustomerWithAll", "Customer", FormMethod.Post);
+
+
+    @Html.LabelFor(x => x.customer.NameCustomer)
+    @Html.EditorFor(x => x.customer.NameCustomer)
+    <br />
+    @Html.LabelFor(x => x.customer.SurnameCustomer)
+    @Html.EditorFor(x => x.customer.SurnameCustomer)
+    <br />
+    @Html.LabelFor(x => x.customer.Age)
+    @Html.EditorFor(x => x.customer.Age)
+
+
+    <br />
+    <br />
+
+    <select>
+        @foreach (var item in Model.ListaAbbonamenti)
+        {
+            <option>
+                @item.NameSubscription
+            </option>
+        }
+        @Model.Subscription = 
+    </select>
+
+    <br />
+    <br />
+
+    <tr>
+        @foreach (var item in Model.ListaCorsi)
+        {
+
+            <td>
+                <input type="checkbox" value="@item" />@item.NameCourse<br />
+            </td>
+
+        }
+    </tr>
+
+    <input type="submit" value="registrati" />
+
+    <br />
+    <br />
+
+    Html.EndForm();
+}

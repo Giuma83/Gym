@@ -1,0 +1,36 @@
+﻿@*@model Gym.Presentation.Models.CustomerModel*@
+@model Gym.Presentation.Models.ListCustomerModel
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Age
+        </th>
+    </tr>
+
+    <tr>
+        <th>
+            @Model.customer.NameCustomer
+        </th>
+        <th>
+            @Model.customer.SurnameCustomer
+        </th>
+        <th>
+            @Model.customer.Age
+        </th>
+        <th>
+            @Html.HiddenFor(m => m.customer.CustomerId)
+            @Html.ActionLink("Modifica", "EditCustomer", "Customer", new {id = Model.customer.CustomerId}, null)
+        </th>
+    </tr>
+</table>
+
+
+
+
+
